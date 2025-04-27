@@ -204,7 +204,7 @@ def proximity_visualizer(target_id):                              #proximity dic
     id_list_for_nodes = []
     freq_colors = []
     node_size_list = []   
-    name_list = []
+    text_color_list = []
     
     
     G = nx.Graph()                                                      #consider re-evaluating graph type to enable algorithmic placement of nodes
@@ -223,38 +223,42 @@ def proximity_visualizer(target_id):                              #proximity dic
     G.add_node(target_id)
     node_size_list.append(2400)
     freq_colors.append('cyan')
-    #name_list.append(master_id_name_dict[target_id])
+    #text_color_list.append('#ffff00')
 
     for id in id_list_for_nodes:
         if id not in G:#id != target_id:
-            G.add_edge(id, target_id)
+            G.add_edge(id, target_id, weight = (id_grand_master_info_dict[id][2])*10)          #closer if together together more
 
         if id != target_id:
             
-            #name_list.append(master_id_name_dict[id])
+
 
             if id_grand_master_info_dict[id][4] <0.25:
                 freq_colors.append('red')
+                #text_color_list.append('#000000')
             
             elif id_grand_master_info_dict[id][4] <0.5:
                 freq_colors.append('yellow')
+                #text_color_list.append('#000000')
             
             elif id_grand_master_info_dict[id][4] <0.75:
                 freq_colors.append('green')
+                #text_color_list.append('#000000')
             
             else:
                 freq_colors.append('blue')
+                #text_color_list.append('#000000')
 
 
 
     for id in id_grand_master_info_dict:
         if id != target_id:
-            temp_size = (((master_distance_dict[id])**-1)*2000000)
+            temp_size = (((id_grand_master_info_dict[id][1])**-1)*5000000)
             node_size_list.append(int(temp_size))
-
-
-    nx.draw_spring(G, node_size = node_size_list, node_color = freq_colors, edgecolors = 'black', node_shape = 'o', labels = master_id_name_dict, with_labels = True)       #default form, change spring
+    
+    nx.draw_spring(G, node_size = node_size_list, node_color = freq_colors, edge_color = 'white', edgecolors = 'black', node_shape = 'o', labels = master_id_name_dict, with_labels = True)       #default form, change spring
     plt.show()
+    #print(id_grand_master_info_dict)
 
 proximity_visualizer(101)
 
